@@ -3,6 +3,7 @@ package com.example.crudrestapi.controller;
 import com.example.crudrestapi.model.User;
 import com.example.crudrestapi.payload.UserDTO;
 import com.example.crudrestapi.service.UserService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class UserController {
     // http://localhost:8080/api/users
 
     @PostMapping
-    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO userDTO) {
         UserDTO savedUser = userService.createUser(userDTO);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
@@ -42,7 +43,7 @@ public class UserController {
 
     @PutMapping("{id}/update")
     public ResponseEntity<UserDTO> updateUser(@PathVariable("id") Long id,
-                                           @RequestBody UserDTO user) {
+                                              @Valid @RequestBody UserDTO user) {
         user.setId(id);
         UserDTO updatedUser = userService.updateUser(user);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
